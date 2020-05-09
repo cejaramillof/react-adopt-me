@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import pet, { ANIMALS } from "@frontendmasters/pet"; // when you add library here, and parcel is runing, he go installing without you need write npm install
+import Results from "./Results";
 import useDropdown from "./useDropdown";
 
 const SearchParams = () => {
@@ -10,8 +11,19 @@ const SearchParams = () => {
   const [animal, setAnimal] = useState("dog");
   const [breeds, setBreeds] = useState([]);
   const [breed, BreedDropdown, setBreed] = useDropdown("Breed", "", breeds);
+  const [pets, setPets] = useState([]);
 
   // const [animalD, AnimalDropdown] = useDropdown("Animal", "dog", ANIMALS);
+
+  async function requestPets() {
+    const { animals } = await pet.animals({
+      location,
+      breed,
+      type: animal,
+    });
+
+    setPets(animals || {});
+  }
 
   // this does not run on the first render
   // first will render DOM, and all of user can see, before run this effect
@@ -32,7 +44,12 @@ const SearchParams = () => {
   return (
     // is className and not class, because is a reserved word in javascript (like let or const), for create a Class.
     <div className="search-params">
-      <form>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          requestPets();
+        }}
+      >
         {/* cant use for, because is a reserved word in javascript, for loop. */}
         <label htmlFor="location">
           Location
@@ -63,6 +80,7 @@ const SearchParams = () => {
         <BreedDropdown />
         <button>Submit</button>
       </form>
+      <Results pets={pets} />
     </div>
   );
 };

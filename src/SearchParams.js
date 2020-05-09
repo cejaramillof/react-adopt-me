@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { ANIMALS } from "@frontendmasters/pet"; // when you add library here, and parcel is runing, he go installing without you need write npm install
+import React, { useState, useEffect } from "react";
+import pet, { ANIMALS } from "@frontendmasters/pet"; // when you add library here, and parcel is runing, he go installing without you need write npm install
 import useDropdown from "./useDropdown";
 
 const SearchParams = () => {
@@ -9,9 +9,25 @@ const SearchParams = () => {
 
   const [animal, setAnimal] = useState("dog");
   const [breeds, setBreeds] = useState([]);
-  const [breed, BreedDropdown] = useDropdown("Breed", "", breeds);
+  const [breed, BreedDropdown, setBreed] = useDropdown("Breed", "", breeds);
 
-  const [animalD, AnimalDropdown] = useDropdown("Animal", "dog", ANIMALS);
+  // const [animalD, AnimalDropdown] = useDropdown("Animal", "dog", ANIMALS);
+
+  // this does not run on the first render
+  // first will render DOM, and all of user can see, before run this effect
+  useEffect(() => {
+    // called after first render
+    setBreeds([]);
+    setBreed("");
+
+    pet.breeds("dog").then(({ breeds: apiBreeds }) => {
+      // const breedStrings = breeds.map((breedObj) => breedObj.name);
+      const breedStrings = apiBreeds.map(({ name }) => name);
+      console.log(breedStrings);
+      setBreeds(breedStrings);
+    }, console.error);
+    // }, error => console.error(error));
+  }, [animal, setBreed, setBreeds]); // array of wich depends useEffect, when is empty only when execut only once
 
   return (
     // is className and not class, because is a reserved word in javascript (like let or const), for create a Class.

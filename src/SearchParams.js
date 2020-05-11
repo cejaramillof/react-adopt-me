@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import pet, { ANIMALS } from "@frontendmasters/pet"; // when you add library here, and parcel is runing, he go installing without you need write npm install
 import Results from "./Results";
 import useDropdown from "./useDropdown";
+import ThemeContext from "./ThemeContext"
 
 const SearchParams = () => {
   // const location = "Seattle, WA"; // with this, cant be changed in html, because on change he will re render again, and have this value.
@@ -13,9 +14,12 @@ const SearchParams = () => {
   const [breed, BreedDropdown, setBreed] = useDropdown("Breed", "", breeds);
   const [pets, setPets] = useState([]);
 
+  const [theme, setTheme] = useContext(ThemeContext)
+
   // const [animalD, AnimalDropdown] = useDropdown("Animal", "dog", ANIMALS);
 
   async function requestPets() {
+    setTheme('darkred');
     const { animals } = await pet.animals({
       location,
       breed,
@@ -78,7 +82,21 @@ const SearchParams = () => {
           </select>
         </label>
         <BreedDropdown />
-        <button>Submit</button>
+        <label htmlFor="theme">
+          Theme
+          <select
+            value={theme}
+            onChange={e => setTheme(e.target.value)}
+            onBlur={e => setTheme(e.target.value)}
+          >
+            <option value="darkblue">Dark Blue</option>
+            <option value="darkred">Dark Red</option>
+            <option value="mediumorchid">Medium Orchid</option>
+            <option value="chartreuse">Chartreuse</option>
+            <option value="peru">Peru</option>
+          </select>
+        </label>
+        <button style={{ backgroundColor: theme }}>Submit</button>
       </form>
       <Results pets={pets} />
     </div>

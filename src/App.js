@@ -1,10 +1,11 @@
 // import ReactDOM from 'react-dom';
 // import React from 'react';
-import React, { createElement } from "react";
+import React, { createElement, useState } from "react";
 import { render } from "react-dom";
 import { Router, Link } from "@reach/router";
 import SearchParams from "./SearchParams";
 import Details from "./Details";
+import ThemeContext from "./ThemeContext";
 
 const App = () => {
   /*   return createElement("div", {}, [
@@ -21,22 +22,33 @@ const App = () => {
       }),
       createElement(Pet, { name: "Doink", animal: "Cat", breed: "Mix" }),
     ]); */
+
+  const themeHook = useState("darkblue");
+  /*
+  const themeHook = useState({
+    buttonColor: "darkblue",
+    modalColor: "pink"
+  });
+  */
+  console.log(themeHook[0])
   return (
     <React.StrictMode>
-      <div>
-        <header>
-          <Link to="/">Adopt Me!</Link>
-        </header>
-        <Router>
-          <SearchParams path="/" />
-          <Details path="/details/:id" />
-        </Router>
-        {/*
+      <ThemeContext.Provider value={themeHook}>
+        <div>
+          <header>
+            <Link to="/">Adopt Me!</Link>
+          </header>
+          <Router>
+            <SearchParams path="/" />
+            <Details path="/details/:id" />
+          </Router>
+          {/*
         <h1>Adopt Me!</h1>
         <Pet name="Luna" animal="Dog" breed="Havanese" />
         <Pet name="Pepper" animal="Bird" breed="Cockatiel" />
         */}
-      </div>
+        </div>
+      </ThemeContext.Provider>
     </React.StrictMode>
   );
 };

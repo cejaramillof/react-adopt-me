@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { Link, Redirect, navigate } from "@reach/router";
 
 class ErrorBoundary extends Component {
-  state = { hasError: false, redirect: false }
+  state = { hasError: false, redirect: false };
   /*
   constructor(props) {
     super(props);
@@ -18,17 +18,17 @@ class ErrorBoundary extends Component {
 
   componentDidCatch(error, errorInfo) {
     // You can also log the error to an error reporting service
-    console.error("Errorboundary caught an err", error, errorInfo)
+    console.error("Errorboundary caught an err", error, errorInfo);
     // logErrorToMyService(error, errorInfo); - Azure monitor, TrackJS, Sentry
   }
 
-  componentDidUpdate() { // like useEffect, will be run in each change of state or props
+  componentDidUpdate() {
+    // like useEffect, will be run in each change of state or props
     if (this.state.hasError) {
       // setTimeout(() => navigate('/'), 5000)
-      setTimeout(() => this.setState({ redirect: true }), 5000)
+      setTimeout(() => this.setState({ redirect: true }), 5000);
     }
   }
-
 
   render() {
     if (this.state.redirect) {
@@ -41,7 +41,8 @@ class ErrorBoundary extends Component {
           There was an error with this listing.
           <Link to="/"> Click here </Link>
           to go back to the home page or wait five seconds.
-        </h1>)
+        </h1>
+      );
     }
 
     return this.props.children;

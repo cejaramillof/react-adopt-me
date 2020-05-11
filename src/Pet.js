@@ -1,4 +1,4 @@
-import React, { createElement } from 'react';
+import React, { createElement, useState } from 'react';
 import { Link } from '@reach/router';
 
 // is better export like a function, for track error's in stack errors
@@ -20,6 +20,10 @@ export default function Pet({ name, animal, breed, media, location, id }) {
   if (media.length) {
     hero = media[0].small
   }
+
+  // when you dont need use get, you will go send '_' to replace.
+  const [_, setBlah] = useState('blah') // eslint-disable-line
+
   return (
     <Link to={`/details/${id}`} className="pet">
       <div className="image-container">

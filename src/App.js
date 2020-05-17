@@ -7,6 +7,7 @@ import SearchParams from "./SearchParams";
 import Details from "./Details";
 import ThemeContext from "./ThemeContext";
 import Hooks from './Hooks';
+import NavBar from './NavBar';
 
 const App = () => {
   /*   return createElement("div", {}, [
@@ -36,9 +37,7 @@ const App = () => {
     <React.StrictMode>
       <ThemeContext.Provider value={themeHook}>
         <div>
-          <header>
-            <Link to="/">Adopt Me!</Link>
-          </header>
+          <NavBar />
           <Router>
             <SearchParams path="/" />
             <Details path="/details/:id" />

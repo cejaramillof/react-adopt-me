@@ -1,13 +1,17 @@
 // import ReactDOM from 'react-dom';
 // import React from 'react';
-import React, { createElement, useState } from "react";
+import React, { createElement, useState, lazy, Suspense } from "react";
 import { render } from "react-dom";
-import { Router, Link } from "@reach/router";
-import SearchParams from "./SearchParams";
-import Details from "./Details";
+import { Router } from "@reach/router";
+// import SearchParams from "./SearchParams";
+// import Details from "./Details";
+// import Hooks from './Hooks';
 import ThemeContext from "./ThemeContext";
-import Hooks from './Hooks';
 import NavBar from './NavBar';
+
+const Details = lazy(() => import('./Details')); // dynamic import
+const SearchParams = lazy(() => import('./SearchParams'));
+const Hooks = lazy(() => import('./Hooks'));
 
 const App = () => {
   /*   return createElement("div", {}, [
@@ -38,16 +42,18 @@ const App = () => {
       <ThemeContext.Provider value={themeHook}>
         <div>
           <NavBar />
-          <Router>
-            <SearchParams path="/" />
-            <Details path="/details/:id" />
-            <Hooks path="/hooks" />
-          </Router>
+          <Suspense fallback={<h1>Loading route..</h1>}>
+            <Router>
+              <SearchParams path="/" />
+              <Details path="/details/:id" />
+              <Hooks path="/hooks" />
+            </Router>
+          </Suspense>
           {/*
-        <h1>Adopt Me!</h1>
-        <Pet name="Luna" animal="Dog" breed="Havanese" />
-        <Pet name="Pepper" animal="Bird" breed="Cockatiel" />
-        */}
+            <h1>Adopt Me!</h1>
+            <Pet name="Luna" animal="Dog" breed="Havanese" />
+            <Pet name="Pepper" animal="Bird" breed="Cockatiel" />
+          */}
         </div>
       </ThemeContext.Provider>
     </React.StrictMode>

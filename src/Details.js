@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { lazy } from 'react';
 import pet from '@frontendmasters/pet';
 import Carousel from './Carousel';
 import ErrorBoundary from './ErrorBoundary';
 import ThemeContext from "./ThemeContext"
-import Modal from './Modal';
+// import Modal from './Modal';
 import { navigate } from '@reach/router';
+
+import _ from 'lodash';
+import moment from 'moment';
+console.log(_, moment);
+
+const Modal = lazy(() => import('./Modal'));
 
 /*
 const Details = (props) => {

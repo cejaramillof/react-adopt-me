@@ -6,6 +6,7 @@ import { Router, Link } from "@reach/router";
 import SearchParams from "./SearchParams";
 import Details from "./Details";
 import ThemeContext from "./ThemeContext";
+import Hooks from './Hooks';
 
 const App = () => {
   /*   return createElement("div", {}, [
@@ -41,6 +42,7 @@ const App = () => {
           <Router>
             <SearchParams path="/" />
             <Details path="/details/:id" />
+            <Hooks path="/hooks" />
           </Router>
           {/*
         <h1>Adopt Me!</h1>

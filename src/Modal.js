@@ -2,6 +2,8 @@ import React, { useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useEffect } from 'react';
 
+// const modalRoot = document.getElementById('modal'); // reference to document on first render, you can move to useEffect.
+
 const Modal = ({ children }) => {
   const elRef = useRef(null);
 

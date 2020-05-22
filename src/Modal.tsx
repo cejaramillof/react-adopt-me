@@ -23,7 +23,7 @@ const Modal: FunctionComponent = ({ children }) => {
     modalRoot.appendChild(elRef.current)
 
     // return is the component will unmount of hooks
-    return () => {modalRoot.removeChild(elRef.current)}
+    return () => { modalRoot.removeChild(elRef.current) }
   }, [])
 
   return createPortal(<div>{children}</div>, elRef.current)

@@ -41,7 +41,7 @@ const CallbackComponent = () => {
       <ExpensiveComputationComponent
         // useCallback works almost the same as useMemo
         // compute={fibonacci}
-        compute={useCallback(fibonacci, [])}
+        compute={useCallback(fibonacci, [])} // will return the callback, but without calling the memoized function
         count={count}
       />
     </div>

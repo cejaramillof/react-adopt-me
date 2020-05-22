@@ -11,7 +11,7 @@ const fibonacci = n => {
 const MemoComponent = () => {
   const [num, setNum] = useState(40);
   const [isGreen, setIsGreen] = useState(true);
-  const fib = useMemo(() => fibonacci(num), [num]);
+  const fib = useMemo(() => fibonacci(num), [num]); // will return the memoized value calling the function
   // const fib = fibonacci(num);
 
   return (

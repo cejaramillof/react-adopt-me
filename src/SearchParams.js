@@ -18,15 +18,18 @@ const SearchParams = () => {
 
   // const [animalD, AnimalDropdown] = useDropdown("Animal", "dog", ANIMALS);
 
-  async function requestPets() {
+  // async function requestPets() {
+  function requestPets() {
     setTheme('darkred');
-    const { animals } = await pet.animals({
+    // const { animals } = await pet.animals({
+    pet.animals({
       location,
       breed,
       type: animal,
+    }).then(({ animals }) => {
+      setPets(animals || {});
     });
 
-    setPets(animals || {});
   }
 
   // this does not run on the first render
@@ -68,6 +71,7 @@ const SearchParams = () => {
           Animal
           <select
             id="animal"
+            data-testid={'animal'} // decouple testing logic from normal logic
             value={animal}
             onChange={(e) => setAnimal(e.target.value)}
             onBlur={(e) => setAnimal(e.target.value)}

@@ -13,6 +13,7 @@
     "lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
     "tslint": "tslint --project",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "typecheck": "tsc --noEmit",
     "install:package:lock": "npm ci"
   },
   "keywords": [],

@@ -2,12 +2,13 @@ import React, { lazy } from 'react';
 import pet, { Photo } from '@frontendmasters/pet';
 import Carousel from './Carousel';
 import ErrorBoundary from './ErrorBoundary';
-import ThemeContext from "./ThemeContext"
+// import ThemeContext from "./ThemeContext"
 // import Modal from './Modal';
 import { navigate, RouteComponentProps } from '@reach/router';
 
 import _ from 'lodash';
 import moment from 'moment';
+import { connect } from 'react-redux';
 console.log(_, moment);
 
 const Modal = lazy(() => import('./Modal'));
@@ -92,14 +93,16 @@ class Details extends React.Component<RouteComponentProps<{ id: string }>> {
         <div onClick={console.log}>
           <h1>{name}</h1>
           <h2>{`${animal} - ${breed} - ${location}`}</h2>
-          <ThemeContext.Consumer>
-            {
-              // (themeHook) => (
-              // <button style={{ backgroundColor: themeHook[0] }}>Adopt {name}</button>
-              ([theme]) => ( // destructuring
-                <button onClick={this.toggleModal} style={{ backgroundColor: theme }}>Adopt {name}</button>
-              )}
-          </ThemeContext.Consumer>
+          { /*<ThemeContext.Consumer>*/}
+          {
+            // (themeHook) => (
+            // <button style={{ backgroundColor: themeHook[0] }}>Adopt {name}</button>
+            // ([theme]) => ( // destructuring
+            <button onClick={this.toggleModal} style={{ backgroundColor: this.props.theme }}>
+              Adopt {name}
+            </button>
+            //  )
+          }
           <p>{description}</p>
           {
             showModal ? (
@@ -122,11 +125,16 @@ class Details extends React.Component<RouteComponentProps<{ id: string }>> {
 
 // export default Details;
 
+
+const mapStateToProps = ({ theme }) => ({ theme });
+
+const WrappedDetails = connect(mapStateToProps)(Details);
 // HoC
 export default function DetailsWithErrorBoundary(props: RouteComponentProps<{ id: string }>) {
   return (
     <ErrorBoundary>
-      <Details {...props} />
+      { /* <Details {...props} /> */}
+      <WrappedDetails {...props} />
     </ErrorBoundary>
   )
 

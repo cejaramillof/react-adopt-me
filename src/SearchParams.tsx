@@ -2,10 +2,13 @@ import React, { useState, useEffect, useContext, FunctionComponent } from "react
 import pet, { ANIMALS, Animal } from "@frontendmasters/pet"; // when you add library here, and parcel is runing, he go installing without you need write npm install
 import Results from "./Results";
 import useDropdown from "./useDropdown";
-import ThemeContext from "./ThemeContext"
+// import ThemeContext from "./ThemeContext"
 import { RouteComponentProps } from '@reach/router';
+import changeTheme from './reducers/ChangeTheme';
+import changeLocation from './reducers/ChangeLocation';
+import { connect } from "react-redux";
 
-const SearchParams: FunctionComponent<RouteComponentProps> = () => {
+const SearchParams: FunctionComponent<RouteComponentProps> = (props) => {
   // const location = "Seattle, WA"; // with this, cant be changed in html, because on change he will re render again, and have this value.
   // The two data binding not is free on react. Like Angular
   const [location, setLocation] = useState("Seattle, WA"); // useState never can be inside loops or conditionals (ifs) because he expect to be called in the same order, in each render.
@@ -15,14 +18,15 @@ const SearchParams: FunctionComponent<RouteComponentProps> = () => {
   const [breed, BreedDropdown, setBreed] = useDropdown("Breed", "", breeds);
   const [pets, setPets] = useState([] as Animal[]);
 
-  const [theme, setTheme] = useContext(ThemeContext)
+  // const [theme, setTheme] = useContext(ThemeContext)
 
   // const [animalD, AnimalDropdown] = useDropdown("Animal", "dog", ANIMALS);
 
   async function requestPets() {
-    setTheme('darkred');
+    // setTheme('darkred');
     const { animals } = await pet.animals({
-      location,
+      // location,
+      location: props.location,
       breed,
       type: animal,
     });
@@ -60,9 +64,11 @@ const SearchParams: FunctionComponent<RouteComponentProps> = () => {
           Location
           <input
             id="location"
-            value={location}
+            // value={props.location}
+            value={props.location}
             placeholder="Location"
-            onChange={(e) => setLocation(e.target.value)}
+            // onChange={(e) => setLocation(e.target.value)}
+            onChange={(e) => props.updateLocation(e.target.value)}
           />
         </label>
         <label htmlFor="animal">
@@ -86,9 +92,12 @@ const SearchParams: FunctionComponent<RouteComponentProps> = () => {
         <label htmlFor="theme">
           Theme
           <select
-            value={theme}
-            onChange={e => setTheme(e.target.value)}
-            onBlur={e => setTheme(e.target.value)}
+            // value={theme}
+            // onChange={e => setTheme(e.target.value)}
+            // onBlur={e => setTheme(e.target.value)}
+            value={props.theme}
+            onChange={e => props.setTheme(e.target.value)}
+            onBlur={e => props.setTheme(e.target.value)}
           >
             <option value="darkblue">Dark Blue</option>
             <option value="darkred">Dark Red</option>
@@ -97,11 +106,22 @@ const SearchParams: FunctionComponent<RouteComponentProps> = () => {
             <option value="peru">Peru</option>
           </select>
         </label>
-        <button style={{ backgroundColor: theme }}>Submit</button>
+        <button style={{ backgroundColor: props.theme }}>Submit</button>
       </form>
       <Results pets={pets} />
     </div>
   );
 };
 
-export default SearchParams;
+const mapStateToProps = ({ theme, location }) => ({
+  theme,
+  location
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setTheme: theme => dispatch(changeTheme(theme)),
+  updateLocation: location => dispatch(changeLocation(location))
+});
+
+// export default SearchParams;
+export default connect(mapStateToProps, mapDispatchToProps)(SearchParams);

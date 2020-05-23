@@ -1,17 +1,19 @@
 // import ReactDOM from 'react-dom';
 // import React from 'react';
 import React, { createElement, useState, lazy, Suspense, FunctionComponent } from "react";
-import { render } from "react-dom";
+import ReactDOM, { render } from "react-dom";
 import { Router } from "@reach/router";
 // import SearchParams from "./SearchParams";
 // import Details from "./Details";
 // import Hooks from './Hooks';
 import ThemeContext from "./ThemeContext";
-import NavBar from './NavBar';
+import NavBar from '../NavBar';
+import { Provider } from "react-redux";
 
 const Details = lazy(() => import('./Details')); // dynamic import
 const SearchParams = lazy(() => import('./SearchParams'));
-const Hooks = lazy(() => import('./Hooks'));
+const Hooks = lazy(() => import('../Hooks'));
+import store from '../store';
 
 const App: FunctionComponent = () => {
   /*   return createElement("div", {}, [
@@ -29,17 +31,19 @@ const App: FunctionComponent = () => {
       createElement(Pet, { name: "Doink", animal: "Cat", breed: "Mix" }),
     ]); */
 
-  const themeHook = useState("darkblue");
+  // const themeHook = useState("darkblue");
+  // console.log(themeHook[0])
+
   /*
   const themeHook = useState({
     buttonColor: "darkblue",
     modalColor: "pink"
   });
   */
-  console.log(themeHook[0])
   return (
     <React.StrictMode>
-      <ThemeContext.Provider value={themeHook}>
+      { /*<ThemeContext.Povider value={themeHook}> */}
+      <Provider store={store}>
         <div>
           <NavBar />
           <Suspense fallback={<h1>Loading route..</h1>}>
@@ -55,12 +59,12 @@ const App: FunctionComponent = () => {
             <Pet name="Pepper" animal="Bird" breed="Cockatiel" />
           */}
         </div>
-      </ThemeContext.Provider>
+      </Provider>
     </React.StrictMode>
   );
 };
 
-// ReactDOM.render(React.createElement(App), document.getElementById("root"));
-// render(createElement(App), document.getElementById("root"));
+ReactDOM.render(React.createElement(App), document.getElementById("root"));
+render(createElement(App), document.getElementById("root"));
 
 export default App;

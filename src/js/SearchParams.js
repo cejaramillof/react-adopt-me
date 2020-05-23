@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import pet, { ANIMALS } from "@frontendmasters/pet"; // when you add library here, and parcel is runing, he go installing without you need write npm install
-import Results from "./Results";
-import useDropdown from "./useDropdown";
-import ThemeContext from "./ThemeContext"
+import Results from "../Results";
+import useDropdown from "../useDropdown";
+import ThemeContext from "../ThemeContext"
 
 const SearchParams = () => {
   // const location = "Seattle, WA"; // with this, cant be changed in html, because on change he will re render again, and have this value.
